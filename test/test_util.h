@@ -1042,22 +1042,26 @@ struct TestFoo
     // Assignment operator
     __host__ __device__ __forceinline__ TestFoo& operator =(const TestFoo& that)
     {
-        assert(magic == MAGIC); // We've been constructed, right?
-        x = that.x;
-        y = that.y;
-        z = that.z;
-        w = that.w;
+        // Only copy if we are in a valid state
+        if (magic == MAGIC){
+            x = that.x;
+            y = that.y;
+            z = that.z;
+            w = that.w;
+        }
         return *this;
     }
 
     // Assignment from int operator
     __host__ __device__ __forceinline__ TestFoo& operator =(int b)
     {
-        assert(magic == MAGIC); // We've been constructed, right?
-        x = b;
-        y = b;
-        z = b;
-        w = b;
+        // Only copy if we are in a valid state
+        if (magic == MAGIC){
+            x = b;
+            y = b;
+            z = b;
+            w = b;
+        }
         return *this;
     }
 
@@ -1181,18 +1185,22 @@ struct TestBar
     // Assignment operator
     __host__ __device__ __forceinline__ TestBar& operator =(const TestBar& that)
     {
-        assert (magic == MAGIC);
-        x = that.x;
-        y = that.y;
+        // Only copy if we are in a valid state
+        if (magic == MAGIC) {
+            x = that.x;
+            y = that.y;
+        }
         return *this;
     }
 
     // Assignment from int operator
     __host__ __device__ __forceinline__ TestBar& operator =(int b)
     {
-        assert (magic == MAGIC);
-        x = b;
-        y = b;
+        // Only copy if we are in a valid state
+        if (magic == MAGIC) {
+            x = b;
+            y = b;
+        }
         return *this;
     }
 

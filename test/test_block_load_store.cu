@@ -124,7 +124,7 @@ __global__ void Kernel(
     // reset data
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ++ITEM)
-        data[ITEM] = OutputT();
+        new (&data[ITEM]) OutputT();
 
     __syncthreads();
 

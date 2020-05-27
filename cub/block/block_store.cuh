@@ -81,7 +81,7 @@ __device__ __forceinline__ void StoreDirectBlocked(
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
-        thread_itr[ITEM] = items[ITEM];
+        new(&thread_itr[ITEM]) T (items[ITEM]);
     }
 }
 
@@ -113,7 +113,7 @@ __device__ __forceinline__ void StoreDirectBlocked(
     {
         if (ITEM + (linear_tid * ITEMS_PER_THREAD) < valid_items)
         {
-            thread_itr[ITEM] = items[ITEM];
+            new (&thread_itr[ITEM]) T(items[ITEM]);
         }
     }
 }
@@ -171,7 +171,7 @@ __device__ __forceinline__ void StoreDirectBlockedVectorized(
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
-        raw_items[ITEM] = items[ITEM];
+        new(&raw_items[ITEM]) T(items[ITEM]);
     }
 
     // Direct-store using vector types
@@ -213,7 +213,7 @@ __device__ __forceinline__ void StoreDirectStriped(
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
-        thread_itr[(ITEM * BLOCK_THREADS)] = items[ITEM];
+        new(&thread_itr[(ITEM * BLOCK_THREADS)]) T(items[ITEM]);
     }
 }
 
@@ -247,7 +247,7 @@ __device__ __forceinline__ void StoreDirectStriped(
     {
         if ((ITEM * BLOCK_THREADS) + linear_tid < valid_items)
         {
-            thread_itr[(ITEM * BLOCK_THREADS)] = items[ITEM];
+            new(&thread_itr[(ITEM * BLOCK_THREADS)]) T(items[ITEM]);
         }
     }
 }
@@ -292,7 +292,7 @@ __device__ __forceinline__ void StoreDirectWarpStriped(
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
-        thread_itr[(ITEM * CUB_PTX_WARP_THREADS)] = items[ITEM];
+        new(&thread_itr[(ITEM * CUB_PTX_WARP_THREADS)]) T(items[ITEM]);
     }
 }
 
@@ -331,7 +331,7 @@ __device__ __forceinline__ void StoreDirectWarpStriped(
     {
         if (warp_offset + tid + (ITEM * CUB_PTX_WARP_THREADS) < valid_items)
         {
-            thread_itr[(ITEM * CUB_PTX_WARP_THREADS)] = items[ITEM];
+            new(&thread_itr[(ITEM * CUB_PTX_WARP_THREADS)]) T(items[ITEM]);
         }
     }
 }

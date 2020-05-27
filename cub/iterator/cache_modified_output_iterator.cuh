@@ -124,6 +124,12 @@ private:
             ThreadStore<MODIFIER>(ptr, val);
             return val;
         }
+
+        /// Address
+        __device__ __forceinline__ ValueType* operator &()
+        {
+            return ptr;
+        }
     };
 
 public:
